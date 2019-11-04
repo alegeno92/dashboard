@@ -1,0 +1,13 @@
+<div class="grid-container">
+  <mat-grid-list cols="3" [rowHeight]="rowHeight | async">
+    <mat-grid-tile *ngFor="let card of cards | async"
+                   [colspan]="card.cols"
+                   [rowspan]="card.rows"
+                   [ngSwitch]="card.code">
+      <app-widget-people-counter [people]="(data$| async)?.people" *ngSwitchCase="'PEOPLE_COUNTER'"></app-widget-people-counter>
+      <app-widget-memory [memory]="(data$| async)?.memory" *ngSwitchCase="'FREE_MEMORY'"></app-widget-memory>
+      <app-widget-storage [storage]="(data$| async)?.storage" *ngSwitchCase="'FREE_STORAGE'"></app-widget-storage>
+      <app-widget-processor [loads]="(data$| async)?.loads" *ngSwitchCase="'PROCESSOR_LOADS'"></app-widget-processor>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
