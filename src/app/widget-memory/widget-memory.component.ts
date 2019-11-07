@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Memory} from '../data-models/memory';
 
 @Component({
   selector: 'app-widget-memory',
@@ -8,10 +7,12 @@ import {Memory} from '../data-models/memory';
 })
 export class WidgetMemoryComponent implements OnInit {
 
-  @Input() memory: Memory = {
-    free: 100,
-    total: 100,
-  };
+  public value;
+
+  @Input('memory')
+  set memory(value) {
+    this.value = value;
+  }
 
   constructor() {
   }

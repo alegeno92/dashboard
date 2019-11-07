@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Loads} from '../data-models/loads';
 
 @Component({
   selector: 'app-widget-processor',
@@ -8,10 +7,12 @@ import {Loads} from '../data-models/loads';
 })
 export class WidgetProcessorComponent implements OnInit {
 
-  @Input() loads: Loads = {
-    free: 100,
-    total: 100,
-  };
+  public value;
+
+  @Input('loads')
+  set loads(value) {
+    this.value = value;
+  }
 
   constructor() {
   }

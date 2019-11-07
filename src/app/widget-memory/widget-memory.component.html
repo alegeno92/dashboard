@@ -1,7 +1,7 @@
 <app-ui-widget title="Free Memory">
       <app-ui-gauge
-        [total]="memory.total"
-        [value]="memory.free"
+        [value]="value?.free"
+        [total]="value?.total"
       label="Free Memory">
       </app-ui-gauge>
 </app-ui-widget>

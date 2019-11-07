@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Storage} from '../data-models/storage';
 
 @Component({
   selector: 'app-widget-storage',
@@ -8,10 +7,12 @@ import {Storage} from '../data-models/storage';
 })
 export class WidgetStorageComponent implements OnInit {
 
-  @Input() storage: Storage = {
-    total: 100,
-    free: 100
-  };
+  public value;
+
+  @Input('storage')
+  set storage(value) {
+    this.value = value;
+  }
 
   constructor() {
   }

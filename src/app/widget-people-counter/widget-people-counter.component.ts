@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {People} from '../data-models/people';
 
 @Component({
   selector: 'app-widget-people-counter',
@@ -7,10 +6,12 @@ import {People} from '../data-models/people';
   styleUrls: ['./widget-people-counter.component.scss']
 })
 export class WidgetPeopleCounterComponent implements OnInit {
+  public value;
 
-  @Input() people: People = {
-    number: 100
-  };
+  @Input('people')
+  set people(value) {
+    this.value = value;
+  }
 
   constructor() {
   }

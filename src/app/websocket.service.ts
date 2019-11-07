@@ -1,5 +1,41 @@
 import {Injectable} from '@angular/core';
-import {Observer, of, Subject} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
+import {map, share} from 'rxjs/operators';
+import {ApplicationData} from './data-models/application-data';
+import {Data} from '@angular/router';
+
+class DataStore {
+  data: ApplicationData;
+
+  constructor() {
+    this.data = {
+      memory: {
+        total: 0,
+        free: 0
+      },
+      loads: {
+        total: 0,
+        free: 0
+      },
+      storage: {
+        total: 0,
+        free: 0
+      },
+      people: {
+        number: 0,
+      }
+    };
+  }
+
+  update(message): ApplicationData {
+    this.data = {
+      ...this.data,
+      ...message
+    };
+    return Object.assign({}, this.data);
+  }
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -7,39 +43,52 @@ import {Observer, of, Subject} from 'rxjs';
 export class WebsocketService {
   ws: WebSocket;
 
+  URL = 'ws:localhost:8086';
+
+  dataStore: DataStore = new DataStore();
+
   constructor() {
   }
 
-  private subject: Subject<MessageEvent>;
+  private subject: Observable<MessageEvent>;
 
-  public connect(url): Subject<MessageEvent> {
+  public connect(): Observable<ApplicationData> {
     if (!this.subject) {
-      this.subject = this.create(url);
-      console.log('Successfully connected: ' + url);
+      this.subject = this.create(this.URL);
+      console.log('Successfully connected: ' + this.URL);
     }
-    return this.subject;
+    return this.subject
+      .pipe(
+        map(message => {
+          let jsonPayload;
+          try {
+            jsonPayload = JSON.parse(message.data);
+          } catch (e) {
+            jsonPayload = null;
+          }
+
+          const data = this.dataStore.update(jsonPayload);
+          console.log(data);
+          return data;
+        }),
+        share()
+      );
   }
 
-  private create(url): Subject<MessageEvent> {
+  private create(url): Observable<any> {
     this.ws = new WebSocket(url);
+    const replaySubject = new ReplaySubject();
 
-    const observable = of((obs: Observer<MessageEvent>) => {
-      this.ws.onmessage = event => {
-        console.log('listener', event);
-      };
-      this.ws.onerror = obs.error.bind(obs);
-      this.ws.onclose = obs.complete.bind(obs);
-
-      return this.ws.close.bind(this.ws);
-    });
-    const observer = {
-      next: (data) => {
-        console.log('observer', data);
-        if (this.ws.readyState === WebSocket.OPEN) {
-          this.ws.send(JSON.stringify(data));
-        }
-      }
+    this.ws.onmessage = (data) => {
+      replaySubject.next(data);
     };
-    return Subject.create(observer, observable);
+
+    this.ws.onerror = (data) => {
+      replaySubject.error(data);
+    };
+    this.ws.onopen = () => {
+      this.ws.send(JSON.stringify({stream: 'start'}));
+    };
+    return replaySubject;
   }
 }

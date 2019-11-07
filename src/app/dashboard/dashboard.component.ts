@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {Breakpoints, BreakpointObserver} from '@angular/cdk/layout';
-import {ApplicationDataService} from '../application-data.service';
 import {Observable} from 'rxjs';
 import {ApplicationData} from '../data-models/application-data';
+import {WebsocketService} from '../websocket.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,7 +46,7 @@ export class DashboardComponent {
       }
 
       return [
-        {code: 'PEOPLE_COUNTER', cols: 3, rows: 1},
+        {code: 'PEOPLE_COUNTER', cols: 1, rows: 1},
         {code: 'FREE_MEMORY', cols: 1, rows: 1},
         {code: 'FREE_STORAGE', cols: 1, rows: 1},
         {code: 'PROCESSOR_LOADS', cols: 1, rows: 1}
@@ -55,14 +55,7 @@ export class DashboardComponent {
   );
   data$: Observable<ApplicationData>;
 
-  constructor(private breakpointObserver: BreakpointObserver, private applicationDataService: ApplicationDataService) {
-    this.data$ = this.applicationDataService.data;
-
-    this.data$.subscribe(data => console.log('received', data));
-
-    setInterval(() => {
-      console.log('send message...');
-      this.applicationDataService.send({message: 'message'});
-    }, 2000);
+  constructor(private breakpointObserver: BreakpointObserver, private websocketService: WebsocketService) {
+    this.data$ = this.websocketService.connect();
   }
 }
