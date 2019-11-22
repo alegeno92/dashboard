@@ -13,8 +13,9 @@ export class UiGaugeComponent implements OnInit {
   @Input() total = 100;
 
   @Input() label = 'Value';
-  @Input() color = '#ff7211';
-  @Input() bgColor = '#5bff50';
+  @Input() unit = 'Unit';
+  @Input() bgColor = '#ff7211';
+  @Input() color = '#5bff50';
 
   size$: Observable<number>;
 

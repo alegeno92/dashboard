@@ -39,17 +39,17 @@ export class DashboardComponent {
       if (matches) {
         return [
           {code: 'PEOPLE_COUNTER', cols: 1, rows: 1},
-          {code: 'FREE_MEMORY', cols: 1, rows: 1},
-          {code: 'FREE_STORAGE', cols: 1, rows: 1},
-          {code: 'PROCESSOR_LOADS', cols: 1, rows: 1}
+          {code: 'VIDEO_STREAM', cols: 1, rows: 1},
+          {code: 'MEMORY', cols: 1, rows: 1},
+          {code: 'LOADS', cols: 1, rows: 1}
         ];
       }
 
       return [
         {code: 'PEOPLE_COUNTER', cols: 1, rows: 1},
-        {code: 'FREE_MEMORY', cols: 1, rows: 1},
-        {code: 'FREE_STORAGE', cols: 1, rows: 1},
-        {code: 'PROCESSOR_LOADS', cols: 1, rows: 1}
+        {code: 'VIDEO_STREAM', cols: 1, rows: 1},
+        {code: 'MEMORY', cols: 1, rows: 1},
+        {code: 'LOADS', cols: 1, rows: 1}
       ];
     })
   );

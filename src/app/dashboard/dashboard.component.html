@@ -5,9 +5,9 @@
                    [rowspan]="card.rows"
                    [ngSwitch]="card.code">
       <app-widget-people-counter [people]="(data$| async)?.people" *ngSwitchCase="'PEOPLE_COUNTER'"></app-widget-people-counter>
-      <app-widget-memory [memory]="(data$| async)?.memory" *ngSwitchCase="'FREE_MEMORY'"></app-widget-memory>
-      <app-widget-storage [storage]="(data$| async)?.storage" *ngSwitchCase="'FREE_STORAGE'"></app-widget-storage>
-      <app-widget-processor [loads]="(data$| async)?.loads" *ngSwitchCase="'PROCESSOR_LOADS'"></app-widget-processor>
+      <app-widget-video-stream *ngSwitchCase="'VIDEO_STREAM'"></app-widget-video-stream>
+      <app-widget-memory [memory]="(data$| async)?.memory" *ngSwitchCase="'MEMORY'"></app-widget-memory>
+      <app-widget-processor [loads]="(data$| async)?.loads" *ngSwitchCase="'LOADS'"></app-widget-processor>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

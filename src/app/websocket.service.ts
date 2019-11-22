@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {map, share} from 'rxjs/operators';
 import {ApplicationData} from './data-models/application-data';
-import {Data} from '@angular/router';
 
 class DataStore {
   data: ApplicationData;
@@ -10,19 +9,19 @@ class DataStore {
   constructor() {
     this.data = {
       memory: {
-        total: 0,
-        free: 0
+        total: 100,
+        free: 10
       },
       loads: {
-        total: 0,
-        free: 0
+        total: 100,
+        free: 10
       },
       storage: {
-        total: 0,
-        free: 0
+        total: 100,
+        free: 10
       },
       people: {
-        number: 0,
+        number: 10,
       }
     };
   }
@@ -43,11 +42,14 @@ class DataStore {
 export class WebsocketService {
   ws: WebSocket;
 
-  URL = 'ws:localhost:8086';
+  PORT = '8086';
+  URL = '';
 
   dataStore: DataStore = new DataStore();
 
   constructor() {
+    const {hostname} = window.location;
+    this.URL = `ws://${hostname}:${this.PORT}`;
   }
 
   private subject: Observable<MessageEvent>;
@@ -63,6 +65,7 @@ export class WebsocketService {
           let jsonPayload;
           try {
             jsonPayload = JSON.parse(message.data);
+            console.log(jsonPayload);
           } catch (e) {
             jsonPayload = null;
           }

@@ -22,6 +22,7 @@ import {WidgetProcessorComponent} from './widget-processor/widget-processor.comp
 import {WidgetStorageComponent} from './widget-storage/widget-storage.component';
 import {UiWidgetComponent} from './ui/ui-widget/ui-widget.component';
 import {WidgetPeopleCounterComponent} from './widget-people-counter/widget-people-counter.component';
+import {WidgetVideoStreamComponent} from './widget-video-stream/widget-video-stream.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {WidgetPeopleCounterComponent} from './widget-people-counter/widget-peopl
     UiWidgetComponent,
     WidgetMemoryComponent,
     WidgetProcessorComponent,
+    WidgetVideoStreamComponent,
     WidgetStorageComponent,
     WidgetPeopleCounterComponent
   ],
